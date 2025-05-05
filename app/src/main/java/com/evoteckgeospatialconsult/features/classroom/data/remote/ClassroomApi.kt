@@ -1,9 +1,14 @@
 package com.evoteckgeospatialconsult.features.classroom.data.remote
 
 import com.evoteckgeospatialconsult.features.classroom.data.models.ClassroomResponse
-import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface ClassroomApi {
-    suspend fun getEnrolledCourses(): Flow<List<ClassroomResponse>>
-    suspend fun getCourseProgress(courseId: String): Flow<ClassroomResponse>
+    @GET("courses/enrolled")
+    suspend fun getEnrolledCourses(): Response<List<ClassroomResponse>>
+
+    @GET("courses/{courseId}/progress")
+    suspend fun getCourseProgress(@Path("courseId") courseId: String): Response<ClassroomResponse>
 }
