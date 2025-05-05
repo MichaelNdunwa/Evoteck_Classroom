@@ -102,4 +102,7 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-dash:1.6.1")
     implementation("androidx.media3:media3-ui:1.6.1")
     implementation("androidx.media3:media3-ui-compose:1.6.1")
+
+    // Lottie
+    implementation("com.airbnb.android:lottie:3.4.0")
 }
