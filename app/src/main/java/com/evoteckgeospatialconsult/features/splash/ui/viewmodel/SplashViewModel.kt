@@ -25,7 +25,7 @@ class SplashViewModel @Inject constructor() : ViewModel() {
     private fun startProgressAnimation() {
         viewModelScope.launch {
             for (i in 0..100) {
-                _progress.value = 1
+                _progress.value = i
                 delay(30L)
             }
         }

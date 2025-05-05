@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlayerDao {
-    @Query("SELECT * FROM  player_progress WHERE  lesson_id = :lessonId")
+    @Query("SELECT * FROM  player_progress WHERE  lessonId = :lessonId")
     fun getLessonProgress(lessonId: String): Flow<PlayerProgressEntity?>
 
-    @Query("SELECT * FROM player_progress WHERE course_id = :courseId")
+    @Query("SELECT * FROM player_progress WHERE courseId = :courseId")
     fun getCourseProgress(courseId: String): Flow<List<PlayerProgressEntity>>
 }
