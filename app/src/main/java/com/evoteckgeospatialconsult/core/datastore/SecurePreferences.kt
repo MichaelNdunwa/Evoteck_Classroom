@@ -20,4 +20,18 @@ class SecurePreferences @Inject constructor(
     fun clearSession() {
         sharedPrefs.edit().clear().apply()
     }
+
+    fun saveUserId(userId: String?) {
+        sharedPrefs.edit().putString("user_id", userId).apply()
+    }
+
+    fun getUserId(): String? {
+        return sharedPrefs.getString("user_id", null)
+    }
+
+    fun clearUserId() {
+        sharedPrefs.edit().remove("user_id").apply()
+    }
+
+
 }
