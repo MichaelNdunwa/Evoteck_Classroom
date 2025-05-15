@@ -76,4 +76,15 @@ class MainActivity : AppCompatActivity() {
                 if (destination.id in hideBottomNav) View.GONE else View.VISIBLE
         }
     }
+
+    private fun setupBottomNavigation() {
+        /***
+         * Bottom Navigation Setup:
+         * --- courses
+         * --- search
+         * --- classroom
+         * --- shortlist
+         * --- profile
+         */
+    }
 }
