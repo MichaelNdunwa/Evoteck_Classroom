@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/courses"
+        android:title="Courses"
+        android:icon="@drawable/ic_courses"/>
+     <item
+        android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/ic_search"/>
+     <item
+        android:id="@+id/classroom"
+        android:title="Classroom"
+        android:icon="@drawable/ic_classroom"/>
+     <item
+        android:id="@+id/shortlist"
+        android:title="Shortlist"
+        android:icon="@drawable/ic_shortlist"/>
+     <item
+        android:id="@+id/profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_profile"/>
+
+</menu>
