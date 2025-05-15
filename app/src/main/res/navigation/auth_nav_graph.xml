@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.evoteckgeospatialconsult.features.onboarding.ui.WelcomeFragment"
+        android:name="com.evoteckgeospatialconsult.features.onboarding.ui.screen.WelcomeFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action

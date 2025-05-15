@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_splash"
+    android:background="@drawable/bg_white_and_black_grid"
     android:padding="8dp"
     tools:context=".features.splash.ui.screen.SplashFragment">
 
@@ -44,15 +44,15 @@
         app:layout_constraintTop_toBottomOf="@id/tvAppName">
 
         <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
             android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:id="@+id/lottieAnimationView"
-            android:layout_alignParentTop="true"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/course_animation"
-            android:layout_height="300dp"/>
+            app:lottie_rawRes="@raw/course_animation" />
 
         <ProgressBar
             android:id="@+id/animatedProgressBar"
@@ -62,6 +62,7 @@
             android:layout_below="@id/lottieAnimationView"
             android:layout_marginTop="32dp"
             android:background="@android:color/darker_gray"
+            android:backgroundTint="@android:color/transparent"
             android:max="100"
             android:progress="0"
             android:progressDrawable="@drawable/progress_drawable" />
@@ -73,7 +74,7 @@
             android:layout_below="@+id/animatedProgressBar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:text="Learning 0% →"
+            android:text="Learning 0%"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
     </RelativeLayout>

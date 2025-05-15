@@ -24,6 +24,7 @@ class SplashFragment : Fragment() {
 
     private val viewModel: SplashViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,10 +33,18 @@ class SplashFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.lottieAnimationView.display
+        binding.lottieAnimationView.playAnimation()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSplashBinding.bind(view)
 
+        binding.lottieAnimationView.display
+        binding.lottieAnimationView.playAnimation()
         observeProgress()
     }
 
@@ -43,7 +52,7 @@ class SplashFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.progress.collectLatest { value ->
                 binding.animatedProgressBar.progress = value
-                binding.progressText.text = "Learning $value% →"
+                binding.progressText.text = "Learning $value%"
 
                 if (value == 100) {
                     delay(300)
