@@ -1,5 +1,6 @@
 package com.evoteckgeospatialconsult
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -42,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        // Initially hide bottom nav until we know where the user is
+        binding.bottomNavigation.visibility = View.GONE
 
         setupNavGraphOnce()
         setupBottomNavVisibility()
@@ -59,22 +62,35 @@ class MainActivity : AppCompatActivity() {
                     }
                     navController.graph = startGraph
                     viewModel.markGraphAsSet() // mark it in ViewModel
+
+                    // update bottom nav visibility immediately after setting the graph
+                    updateBottomNavVisibility(navController.currentDestination?.id)
                 }
             }
         }
     }
+
     private fun setupBottomNavVisibility() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            // List of fragments where the bottomNav should be hidden
-            val hideBottomNav = setOf(
-                R.id.splashFragment,
-                R.id.welcomeFragment,
-                R.id.loginFragment,
-                R.id.signupFragment
-            )
-            binding.bottomNavigation.visibility =
-                if (destination.id in hideBottomNav) View.GONE else View.VISIBLE
+            updateBottomNavVisibility(destination.id)
         }
+    }
+    private fun updateBottomNavVisibility(destinationId: Int?) {
+        // List of fragments where the bottomNav should be hidden
+        val hideBottomNav = setOf(
+            R.id.splashFragment,
+            R.id.welcomeFragment,
+            R.id.loginFragment,
+            R.id.signupFragment
+        )
+        binding.bottomNavigation.visibility =
+            if (destinationId in hideBottomNav) View.GONE else View.VISIBLE
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // ensure bottom nav visibility is correct after configuration changes
+        updateBottomNavVisibility(navController.currentDestination?.id)
     }
 
     private fun setupBottomNavigation() {

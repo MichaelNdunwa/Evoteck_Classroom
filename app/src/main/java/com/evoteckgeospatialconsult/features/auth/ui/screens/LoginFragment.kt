@@ -1,10 +1,16 @@
 package com.evoteckgeospatialconsult.features.auth.ui.screens
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.navigation.fragment.findNavController
 import com.evoteckgeospatialconsult.R
 import com.evoteckgeospatialconsult.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,10 +32,65 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLoginBinding.bind(view)
 
+        binding.scrollView.apply {
+            isFocusableInTouchMode = true
+            isClickable = true
+        }
+        binding.scrollView.setOnClickListener {
+            requireActivity().currentFocus?.clearFocus()
+            binding.scrollView.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+
+        setupTouchListeners()
+        signup()
         setupObservers()
+    }
+
+    private fun signup() {
+        binding.tvSignup.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+        }
+    }
+
+    private fun setupTouchListeners() {
+        // make scroll view consume touch events outside of input fields
+        binding.scrollView.apply {
+            isFocusableInTouchMode = true
+            isClickable = true
+
+            setOnTouchListener { view, event ->
+                when (event.action) {
+                    android.view.MotionEvent.ACTION_UP -> {
+                        hideKeyboard()
+                        activity?.currentFocus?.let {
+                            if (it is EditText) it.clearFocus()
+                        }
+                        binding.scrollView.requestFocus()
+                        view.performClick()
+                    }
+                }
+                false
+            }
+        }
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
+    }
+
+    private fun hideKeyboard() {
+        val view = activity?.currentFocus ?: view ?: return
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun setupObservers() {
         // TODO: Setup LiveData observers
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
