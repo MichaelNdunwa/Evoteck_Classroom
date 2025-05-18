@@ -1,6 +1,7 @@
 package com.evoteckgeospatialconsult.features.onboarding.ui.screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.evoteckgeospatialconsult.features.onboarding.ui.OnboardingAdapter
 
 class WelcomeFragment : Fragment() {
 
+    private val LOG_TAG = "Welcome Fragment"
     private var _binding: FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
 
@@ -32,31 +34,36 @@ class WelcomeFragment : Fragment() {
         setupObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(LOG_TAG, "Current fragment: Welcome Fragment")
+    }
+
     private fun setupObservers() {
         // Setup onboarding ViewPager
         val onboardingItems = listOf(
             OnboardingItem(
-                R.raw.onboarding_welcome,
+                R.raw.lottie_onboarding_welcome,
                 "Welcome to Evoteck Classroom",
                 "Your journey to professional growth starts here. Discover thousands of expert-led courses in geospatial technology and beyond."
             ),
             OnboardingItem(
-                R.raw.onboarding_learn_anywhere,
+                R.raw.lottie_onboarding_learn_anywhere,
                 "Learn at Your Own Pace",
                 "Access expert-taught courses anytime, anywhere. Download lessons for offline viewing and learn on your schedule."
             ),
             OnboardingItem(
-                R.raw.onboarding_diverse_content,
+                R.raw.lottie_onboarding_diverse_content,
                 "From Beginner to Expert",
                 "Explore our library of GIS, remote sensing, and geospatial analytics courses tailored for every skill level and career state."
             ),
             OnboardingItem(
-                R.raw.onboarding_hands_on_learning,
+                R.raw.lottie_onboarding_hands_on_learning,
                 "Hands-On Learning",
                 "Apply what you learn through practical exercises, real-would projects, and interactive assessments designed by industry experts."
             ),
             OnboardingItem(
-                R.raw.onboarding_community,
+                R.raw.lottie_onboarding_community,
                 "Connect & Grow Together",
                 "Join discussions, share insights, and network with fellow professionals. Your geospatial learning community awaits."
             )

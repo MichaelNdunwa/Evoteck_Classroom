@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import com.evoteckgeospatialconsult.core.ui.MainViewModel
 import com.evoteckgeospatialconsult.databinding.ActivityMainBinding
@@ -54,13 +55,16 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.isUserLoggedIn.collectLatest { isLoggedIn ->
                 if (!viewModel.hasSetGraph.value) {
-                    val graphInflater = navController.navInflater
-                    val startGraph = if (isLoggedIn) {
-                        graphInflater.inflate(R.navigation.app_nav_graph)
-                    } else {
-                        graphInflater.inflate(R.navigation.auth_nav_graph)
-                    }
-                    navController.graph = startGraph
+                    val navInflater = navController.navInflater
+                    val graph = navInflater.inflate(R.navigation.root_nav_graph)
+                    /*graph.setStartDestination(
+                        if (isLoggedIn) {
+                            R.id.app_nav_graph
+                        } else {
+                            R.id.auth_nav_graph
+                        }
+                    )*/
+                    navController.graph = graph
                     viewModel.markGraphAsSet() // mark it in ViewModel
 
                     // update bottom nav visibility immediately after setting the graph
