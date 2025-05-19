@@ -15,10 +15,22 @@ android {
         applicationId = "com.evoteckgeospatialconsult"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // configure APK output names
+    applicationVariants.all {
+        val variant = this
+        outputs.all {
+            when (this) {
+                is com.android.build.gradle.internal.api.BaseVariantOutputImpl -> {
+                    outputFileName = "EvoteckClassroom-${variant.buildType.name}-v${variant.versionName}.apk"
+                }
+            }
+        }
     }
 
     buildTypes {
