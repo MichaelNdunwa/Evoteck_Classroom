@@ -2,6 +2,7 @@ package com.evoteckgeospatialconsult
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private val LOG_TAG = "Main Activity"
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
@@ -44,6 +46,11 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        // track navigation changes for back stack
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            Log.d(LOG_TAG, "Navigated to:  ${destination.label}")
+        }
+
         // Initially hide bottom nav until we know where the user is
         binding.bottomNavigation.visibility = View.GONE
 
@@ -57,13 +64,6 @@ class MainActivity : AppCompatActivity() {
                 if (!viewModel.hasSetGraph.value) {
                     val navInflater = navController.navInflater
                     val graph = navInflater.inflate(R.navigation.root_nav_graph)
-                    /*graph.setStartDestination(
-                        if (isLoggedIn) {
-                            R.id.app_nav_graph
-                        } else {
-                            R.id.auth_nav_graph
-                        }
-                    )*/
                     navController.graph = graph
                     viewModel.markGraphAsSet() // mark it in ViewModel
 

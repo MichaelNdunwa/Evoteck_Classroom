@@ -1,6 +1,5 @@
 package com.evoteckgeospatialconsult.features.auth.ui.screens
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.fragment.findNavController
 import com.evoteckgeospatialconsult.R
 import com.evoteckgeospatialconsult.databinding.FragmentLoginBinding
@@ -38,18 +35,6 @@ class LoginFragment : Fragment() {
         setupTouchListeners()
         signup()
         setupObservers()
-
-        // add back button functionality:
-//        onBackPress()
-    }
-
-    private fun onBackPress() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigateUp()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     override fun onResume() {
