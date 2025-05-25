@@ -1,6 +1,8 @@
 package com.evoteckgeospatialconsult
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -10,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import com.evoteckgeospatialconsult.core.ui.MainViewModel
 import com.evoteckgeospatialconsult.databinding.ActivityMainBinding
@@ -19,6 +22,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private val LOG_TAG = "Main Activity"
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
@@ -42,6 +46,13 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        // track navigation changes for back stack
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            Log.d(LOG_TAG, "Navigated to:  ${destination.label}")
+        }
+
+        // Initially hide bottom nav until we know where the user is
+        binding.bottomNavigation.visibility = View.GONE
 
         setupNavGraphOnce()
         setupBottomNavVisibility()
@@ -51,30 +62,39 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.isUserLoggedIn.collectLatest { isLoggedIn ->
                 if (!viewModel.hasSetGraph.value) {
-                    val graphInflater = navController.navInflater
-                    val startGraph = if (isLoggedIn) {
-                        graphInflater.inflate(R.navigation.app_nav_graph)
-                    } else {
-                        graphInflater.inflate(R.navigation.auth_nav_graph)
-                    }
-                    navController.graph = startGraph
+                    val navInflater = navController.navInflater
+                    val graph = navInflater.inflate(R.navigation.root_nav_graph)
+                    navController.graph = graph
                     viewModel.markGraphAsSet() // mark it in ViewModel
+
+                    // update bottom nav visibility immediately after setting the graph
+                    updateBottomNavVisibility(navController.currentDestination?.id)
                 }
             }
         }
     }
+
     private fun setupBottomNavVisibility() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            // List of fragments where the bottomNav should be hidden
-            val hideBottomNav = setOf(
-                R.id.splashFragment,
-                R.id.welcomeFragment,
-                R.id.loginFragment,
-                R.id.signupFragment
-            )
-            binding.bottomNavigation.visibility =
-                if (destination.id in hideBottomNav) View.GONE else View.VISIBLE
+            updateBottomNavVisibility(destination.id)
         }
+    }
+    private fun updateBottomNavVisibility(destinationId: Int?) {
+        // List of fragments where the bottomNav should be hidden
+        val hideBottomNav = setOf(
+            R.id.splashFragment,
+            R.id.welcomeFragment,
+            R.id.loginFragment,
+            R.id.signupFragment
+        )
+        binding.bottomNavigation.visibility =
+            if (destinationId in hideBottomNav) View.GONE else View.VISIBLE
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // ensure bottom nav visibility is correct after configuration changes
+        updateBottomNavVisibility(navController.currentDestination?.id)
     }
 
     private fun setupBottomNavigation() {
