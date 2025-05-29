@@ -15,8 +15,8 @@ android {
         applicationId = "com.evoteckgeospatialconsult"
         minSdk = 24
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.3"
+        versionCode = 4
+        versionName = "1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -123,4 +123,14 @@ dependencies {
 
     // DotsIndicator
     implementation("com.tbuonomo:dotsindicator:5.1.0")
+
+    // Facebook Android SDK
+    implementation("com.facebook.android:facebook-android-sdk:18.0.3")
+
+    // Google Identity Services SDK
+    implementation("androidx.credentials:credentials:1.5.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.5.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
 }

@@ -5,4 +5,6 @@
     <!--    Login strings-->
     <string name="don_t_have_an_account_sign_up">Don\'t have an account? <font color="#4CC5F2">Sign up</font></string>
     <string name="already_have_an_account_login">Already have an account? <font color="#4CC5F2">Login</font></string>
+
+    <string name="default_web_client_id">693741373607-jmakof181cq20ba17nqn6p3di9qc0cms.apps.googleusercontent.com</string>
 </resources>
