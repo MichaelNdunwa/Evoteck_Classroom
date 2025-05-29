@@ -12,6 +12,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.credentials.Credential
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialException
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,6 +27,7 @@ import com.evoteckgeospatialconsult.databinding.FragmentLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,29 +36,11 @@ import kotlinx.coroutines.launch
 class LoginFragment : Fragment() {
     private val LOG_TAG = "Login Fragment"
 
-    private val RC_SIGN_IN = 1001
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
-
-    private val googleSignInLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        val data = result.data
-        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-        try {
-            val account = task.getResult(ApiException::class.java)
-            val idToken = account.idToken
-            if (idToken != null) {
-                viewModel.loginWithGoogle(idToken)
-            } else {
-                Toast.makeText(requireContext(), "Google sign in failed: No token", Toast.LENGTH_LONG).show()
-            }
-        } catch (e: ApiException) {
-            Toast.makeText(requireContext(), "Google sign in failed: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
-        }
-    }
+    private lateinit var credential: CredentialManager
 
    override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,16 +53,16 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        credential = CredentialManager.create(requireContext())
         setupTouchListeners()
         setupClickListeners()
         setupObservers()
     }
 
-    override fun onResume() {
+  /*  override fun onResume() {
         super.onResume()
         Log.d(LOG_TAG, "Current Fragment: LoginFragment")
-    }
+    }*/
 
     private fun setupClickListeners() {
         binding.apply {
@@ -82,19 +70,50 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
             }
             btnGoogle.setOnClickListener {
-                launchGoogleSignIn()
+                launchGoogleCredentialManagerSignIn()
             }
         }
     }
 
-    private fun launchGoogleSignIn() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
+    private fun launchGoogleCredentialManagerSignIn() {
+        val googleIdOption = GetGoogleIdOption.Builder()
+            .setServerClientId(getString(R.string.default_web_client_id))
+            .setFilterByAuthorizedAccounts(false)
             .build()
-        val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-        val signInIntent = googleSignInClient.signInIntent
-        googleSignInLauncher.launch(signInIntent)
+
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val result = credential.getCredential(
+                    context = requireContext(),
+                    request = request
+                )
+                handleCredentialResult(result.credential)
+            } catch (e: GetCredentialException) {
+                Log.e(LOG_TAG, "Google sign in failed: ${e.localizedMessage}")
+//                Toast.makeText(requireContext(), "Google sign in failed: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                Log.e(LOG_TAG, "Unexpected error: ${e.localizedMessage}")
+                Toast.makeText(requireContext(), "Unexpected error: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun handleCredentialResult(credential: Credential) {
+        if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+            val idToken = googleIdTokenCredential.idToken
+            if (!idToken.isNullOrBlank()) {
+                viewModel.loginWithGoogle(idToken)
+            } else {
+                Toast.makeText(requireContext(), "Google sign in failed: No token", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(requireContext(), "Not a Google ID credential", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupTouchListeners() {
