@@ -1,6 +1,7 @@
 package com.evoteckgeospatialconsult.features.auth.ui.screens
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -22,6 +23,11 @@ import com.evoteckgeospatialconsult.R
 import com.evoteckgeospatialconsult.core.auth.AuthResult
 import com.evoteckgeospatialconsult.core.ui.MainViewModel
 import com.evoteckgeospatialconsult.databinding.FragmentLoginBinding
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +42,7 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var credential: CredentialManager
+    private lateinit var callbackManager: CallbackManager
 
    override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,9 +56,15 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         credential = CredentialManager.create(requireContext())
+        callbackManager = CallbackManager.Factory.create()
         setupTouchListeners()
         setupClickListeners()
         setupObservers()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun setupClickListeners() {
@@ -77,7 +90,22 @@ class LoginFragment : Fragment() {
             }
 
             btnFacebook.setOnClickListener {
+                LoginManager.getInstance().logInWithReadPermissions(this@LoginFragment, listOf("email", "public_profile"))
+                LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
 
+                    override fun onSuccess(result: LoginResult) {
+                        viewModel.loginWithFacebook(result.accessToken)
+                    }
+
+                    override fun onCancel() {
+                        Toast.makeText(requireContext(), "Facebook login cancelled", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onError(error: FacebookException) {
+                        Toast.makeText(requireContext(), "Facebook login failed: ${error.localizedMessage}", Toast.LENGTH_LONG).show()
+                    }
+
+                })
             }
 
             btnGoogle.setOnClickListener {
