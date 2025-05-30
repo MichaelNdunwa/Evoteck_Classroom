@@ -1,7 +1,6 @@
 package com.evoteckgeospatialconsult.features.auth.ui.screens
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -51,16 +49,10 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         credential = CredentialManager.create(requireContext())
-        binding.progressOverlay.progressOverlay.visibility = View.VISIBLE
         setupTouchListeners()
         setupClickListeners()
         setupObservers()
     }
-
-  /*  override fun onResume() {
-        super.onResume()
-        Log.d(LOG_TAG, "Current Fragment: LoginFragment")
-    }*/
 
     private fun setupClickListeners() {
         binding.apply {
@@ -84,9 +76,15 @@ class LoginFragment : Fragment() {
                 viewModel.login(email, password)
             }
 
+            btnFacebook.setOnClickListener {
+
+            }
+
             btnGoogle.setOnClickListener {
                 launchGoogleCredentialManagerSignIn()
             }
+
+            btnApple.setOnClickListener {  }
         }
     }
 
