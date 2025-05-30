@@ -13,7 +13,7 @@
         android:id="@+id/tvWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
         android:text="Welcome To"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -39,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAppName">
@@ -73,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/animatedProgressBar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="Learning 0%"
             android:textColor="@android:color/white"
             android:textSize="18sp" />

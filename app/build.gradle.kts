@@ -116,7 +116,7 @@ dependencies {
     implementation("androidx.media3:media3-ui-compose:1.6.1")
 
     // Lottie
-    implementation("com.airbnb.android:lottie:3.4.0")
+    implementation("com.airbnb.android:lottie:6.6.6")
 
     // Viewpager
     implementation("androidx.viewpager2:viewpager2:1.0.0")

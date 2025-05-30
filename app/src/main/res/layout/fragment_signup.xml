@@ -12,12 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:focusableInTouchMode="true"
-        android:padding="24dp">
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:padding="24dp"
+            android:layout_height="wrap_content">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_animationView"
@@ -29,8 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/lottie_signup"
-                app:lottie_scale="2" />
+                app:lottie_rawRes="@raw/lottie_signup" />
 
             <TextView
                 android:id="@+id/tv_title"

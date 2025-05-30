@@ -51,6 +51,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         credential = CredentialManager.create(requireContext())
+        binding.progressOverlay.progressOverlay.visibility = View.VISIBLE
         setupTouchListeners()
         setupClickListeners()
         setupObservers()
@@ -162,27 +163,27 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        // observe login result
         viewLifecycleOwner.lifecycleScope.launch {
+            // observe login result
             viewModel.authResult.collect { result ->
                 when (result) {
                     is AuthResult.Loading -> {
                         // Show loading indicator (progress bar)
-                        // binding.progressBar.visibility = View.VISIBLE
+                        binding.progressOverlay.progressOverlay.visibility = View.VISIBLE
                     }
                     is AuthResult.Success -> {
                         // Hide loading, navigate to course fragment
-                        // binding.progressBar.visibility = View.GONE
+                        binding.progressOverlay.progressOverlay.visibility = View.GONE
                         findNavController().navigate(R.id.action_loginFragment_to_courseListFragment)
                     }
                     is AuthResult.Error -> {
                         // Hide loading, show error message
-                        // binding.progressBar.visibility = View.GONE
+                        binding.progressOverlay.progressOverlay.visibility = View.GONE
                         Toast.makeText(requireContext(), "Error: ${result.error.message}", Toast.LENGTH_LONG).show()
                     }
                     null -> {
                         // Handle unexpected state
-                        // binding.progressBar.visibility = View.GONE
+                        binding.progressOverlay.progressOverlay.visibility = View.GONE
                         // Toast.makeText(requireContext(), "Unexpected state", Toast.LENGTH_LONG).show()
                     }
                 }
