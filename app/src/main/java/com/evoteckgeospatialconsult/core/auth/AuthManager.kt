@@ -2,11 +2,14 @@ package com.evoteckgeospatialconsult.core.auth
 
 import com.evoteckgeospatialconsult.core.auth.extensions.toAuthError
 import com.evoteckgeospatialconsult.core.auth.extensions.toDomainUser
+import com.evoteckgeospatialconsult.core.auth.model.AuthError
 import com.evoteckgeospatialconsult.core.datastore.SecurePreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.facebook.AccessToken
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -54,6 +57,26 @@ class AuthManager @Inject constructor(
             val result = firebaseAuth.signInWithCredential(credential).await()
             prefs.saveUserId(result.user?.uid)
             AuthResult.Success(result.user?.toDomainUser())
+        } catch (e: Exception) {
+            if (e is FirebaseAuthUserCollisionException && e.updatedCredential != null) {
+                AuthResult.RequiresLink(
+                    "Account exists with a different credential. Please sign in with the original provider to link accounts.",
+                    e.updatedCredential!!
+                )
+            } else {
+                AuthResult.Error(e.toAuthError())
+            }
+        }
+    }
+    suspend fun linkPendingCredential(pendingCredential: AuthCredential): AuthResult {
+        return try {
+            val user = firebaseAuth.currentUser
+            if (user != null) {
+                val result = user.linkWithCredential(pendingCredential).await()
+                AuthResult.Success(result.user?.toDomainUser())
+            } else {
+                AuthResult.Error(AuthError(-1, "You need to be signed in with your original provider before linking."))
+            }
         } catch (e: Exception) {
             AuthResult.Error(e.toAuthError())
         }

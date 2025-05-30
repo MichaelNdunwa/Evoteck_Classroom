@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -30,6 +31,7 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -207,11 +209,17 @@ class LoginFragment : Fragment() {
                         binding.progressOverlay.progressOverlay.visibility = View.GONE
                         Toast.makeText(requireContext(), "Error: ${result.error.message}", Toast.LENGTH_LONG).show()
                     }
+                    is AuthResult.RequiresLink -> {
+                        binding.progressOverlay.progressOverlay.visibility = View.GONE
+//                        showLinkAccountDialog(result.message, result.pendingCredential)
+                        viewModel.linkPendingCredential(result.pendingCredential)
+                    }
                     null -> {
                         // Handle unexpected state
                         binding.progressOverlay.progressOverlay.visibility = View.GONE
                         // Toast.makeText(requireContext(), "Unexpected state", Toast.LENGTH_LONG).show()
                     }
+
                 }
             }
         }

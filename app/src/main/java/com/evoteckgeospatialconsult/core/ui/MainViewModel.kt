@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.evoteckgeospatialconsult.core.auth.AuthManager
 import com.evoteckgeospatialconsult.core.auth.AuthResult
 import com.facebook.AccessToken
+import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,6 +63,15 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _authResult.value = AuthResult.Loading
             val result = authManager.loginWithFacebook(token)
+            _authResult.value = result
+            _isUserLoggedIn.value = result is AuthResult.Success
+        }
+    }
+
+    fun linkPendingCredential(pendingCredential: AuthCredential) {
+        viewModelScope.launch {
+            _authResult.value = AuthResult.Loading
+            val result = authManager.linkPendingCredential(pendingCredential)
             _authResult.value = result
             _isUserLoggedIn.value = result is AuthResult.Success
         }
