@@ -24,9 +24,6 @@ import com.evoteckgeospatialconsult.R
 import com.evoteckgeospatialconsult.core.auth.AuthResult
 import com.evoteckgeospatialconsult.core.ui.MainViewModel
 import com.evoteckgeospatialconsult.databinding.FragmentLoginBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +66,23 @@ class LoginFragment : Fragment() {
             tvSignup.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
             }
+
+            btnLogin.setOnClickListener {
+                val email = etEmail.text.toString().trim()
+                val password = etPassword.text.toString().trim()
+                if (email.isEmpty()) {
+                    etEmail.error = "Email is required"
+                    etEmail.requestFocus()
+                    return@setOnClickListener
+                }
+                if (password.isEmpty()) {
+                    etPassword.error = "Password is required"
+                    etPassword.requestFocus()
+                    return@setOnClickListener
+                }
+                viewModel.login(email, password)
+            }
+
             btnGoogle.setOnClickListener {
                 launchGoogleCredentialManagerSignIn()
             }
