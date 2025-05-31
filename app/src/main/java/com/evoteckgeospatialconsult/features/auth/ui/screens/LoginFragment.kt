@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -31,7 +30,7 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.firebase.auth.AuthCredential
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -114,7 +113,19 @@ class LoginFragment : Fragment() {
                 launchGoogleCredentialManagerSignIn()
             }
 
-            btnApple.setOnClickListener {  }
+            btnApple.setOnClickListener {
+                MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+                    .setTitle("Apple Login Unavailable")
+                    .setMessage("Sign in with Apple is not supported at the moment. Please use Google, Facebook, or email to sign in. Thank you for your understanding.")
+                    .setPositiveButton("OK", null)
+                    .show()
+            }
+
+            tvForgotPassword.setOnClickListener {
+                ForgotPasswordBottomSheet { email ->
+                    viewModel.sendPasswordReset(email)
+                }.show(parentFragmentManager, "ForgotPasswordBottomSheet")
+            }
         }
     }
 
@@ -202,7 +213,11 @@ class LoginFragment : Fragment() {
                     is AuthResult.Success -> {
                         // Hide loading, navigate to course fragment
                         binding.progressOverlay.progressOverlay.visibility = View.GONE
-                        findNavController().navigate(R.id.action_loginFragment_to_courseListFragment)
+                        if (result.user == null) {
+                            Toast.makeText(requireContext(), "Password reset link sent. Check your email.", Toast.LENGTH_LONG).show()
+                        } else {
+                            findNavController().navigate(R.id.action_loginFragment_to_courseListFragment)
+                        }
                     }
                     is AuthResult.Error -> {
                         // Hide loading, show error message

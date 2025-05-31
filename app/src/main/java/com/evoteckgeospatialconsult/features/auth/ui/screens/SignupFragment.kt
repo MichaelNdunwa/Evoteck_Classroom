@@ -34,7 +34,7 @@ class SignupFragment : Fragment() {
         _binding = FragmentSignupBinding.bind(view)
 
         setupTouchListeners()
-        setupSignup()
+        setupClickListeners()
         setupObservers()
     }
     override fun onResume() {
@@ -42,14 +42,23 @@ class SignupFragment : Fragment() {
         Log.d(LOG_TAG, "Current Fragment: SignupFragment")
     }
 
-    private fun setupSignup() {
-        binding.tvLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+    private fun setupClickListeners() {
+        binding.apply {
+            tvLogin.setOnClickListener {
+                findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+            }
+
+            btnSignup.setOnClickListener {
+
+            }
+
+            btnFacebook.setOnClickListener {  }
+
+            btnGoogle.setOnClickListener {  }
+
+            btnApple.setOnClickListener {  }
         }
 
-        binding.btnSignup.setOnClickListener {
-            findNavController().navigate(R.id.action_signupFragment_to_courseListFragment)
-        }
     }
 
     private fun setupTouchListeners() {

@@ -77,6 +77,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun sendPasswordReset(email: String) {
+        viewModelScope.launch {
+            _authResult.value = AuthResult.Loading
+            val result = authManager.sendPasswordReset(email)
+            _authResult.value = result
+        }
+    }
+
     fun logout() {
         authManager.logout()
         _isUserLoggedIn.value = false

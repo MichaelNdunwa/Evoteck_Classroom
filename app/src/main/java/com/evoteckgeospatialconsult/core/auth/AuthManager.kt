@@ -81,6 +81,14 @@ class AuthManager @Inject constructor(
             AuthResult.Error(e.toAuthError())
         }
     }
+    suspend fun sendPasswordReset(email: String): AuthResult {
+        return try {
+            firebaseAuth.sendPasswordResetEmail(email).await()
+            AuthResult.Success(null)
+        } catch (e: Exception) {
+            AuthResult.Error(e.toAuthError())
+        }
+    }
 
     fun logout() {
         firebaseAuth.signOut()
