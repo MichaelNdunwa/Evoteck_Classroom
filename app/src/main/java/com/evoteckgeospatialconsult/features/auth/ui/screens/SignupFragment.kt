@@ -117,10 +117,11 @@ class SignupFragment : Fragment() {
             }
 
             binding.tvTerms.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW).apply {
+                /*val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse("https://evoteckgeospatialconsult.com/terms-and-conditions/")
                 }
-                startActivity(intent)
+                startActivity(intent)*/
+                findNavController().navigate(R.id.action_signupFragment_to_termsWebViewFragment)
             }
 
             btnFacebook.setOnClickListener {

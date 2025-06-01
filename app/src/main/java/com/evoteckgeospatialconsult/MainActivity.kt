@@ -85,7 +85,8 @@ class MainActivity : AppCompatActivity() {
             R.id.splashFragment,
             R.id.welcomeFragment,
             R.id.loginFragment,
-            R.id.signupFragment
+            R.id.signupFragment,
+            R.id.termsWebViewFragment
         )
         binding.bottomNavigation.visibility =
             if (destinationId in hideBottomNav) View.GONE else View.VISIBLE

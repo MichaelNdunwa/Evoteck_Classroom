@@ -69,6 +69,9 @@
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true"
             app:destination="@id/courseListFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_termsWebViewFragment"
+            app:destination="@id/termsWebViewFragment" />
     </fragment>
 
     <!--    app_nav_graph-->
@@ -104,5 +107,14 @@
         android:name="com.evoteckgeospatialconsult.features.profile.ui.screens.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/termsWebViewFragment"
+        android:name="com.evoteckgeospatialconsult.features.deeplink.ui.screen.TermsWebViewFragment"
+        android:label="fragment_terms_web_view"
+        tools:layout="@layout/fragment_terms_web_view" >
+        <action
+            android:id="@+id/action_termsWebViewFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
 
 </navigation>

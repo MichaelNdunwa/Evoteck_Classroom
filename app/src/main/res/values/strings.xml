@@ -12,4 +12,6 @@
     <string name="facebook_app_id">1501404271221502</string>
     <string name="fb_login_protocol_scheme">fb1501404271221502</string>
     <string name="facebook_client_token">0c2fefd02e7d085be8adff0df475b315</string>
+
+    <string name="terms_url">https://evoteckgeospatialconsult.com/terms-and-conditions/</string>
 </resources>
