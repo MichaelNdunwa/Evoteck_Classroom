@@ -1,5 +1,7 @@
 package com.evoteckgeospatialconsult.core.auth
 
+import android.provider.Settings.Global.getString
+import com.evoteckgeospatialconsult.R
 import com.evoteckgeospatialconsult.core.auth.extensions.toAuthError
 import com.evoteckgeospatialconsult.core.auth.extensions.toDomainUser
 import com.evoteckgeospatialconsult.core.auth.model.AuthError
@@ -32,10 +34,24 @@ class AuthManager @Inject constructor(
             AuthResult.Error(e.toAuthError())
         }
     }
-    suspend fun signup(email: String, password: String): AuthResult {
+    suspend fun signup(email: String, password: String, fullname: String): AuthResult {
         return try {
-            val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            prefs.saveUserId(result.user?.uid) // Save the logged-in user's ID securely
+            val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+            prefs.saveUserId(result.user?.uid)
+            // Save to Firestore
+            val uid = result.user?.uid
+            if (uid != null) {
+                val userData = mapOf(
+                    "uid" to uid,
+                    "email" to email,
+                    "fullname" to fullname,
+                    "createdAt" to System.currentTimeMillis()
+                )
+//                firestore.collection("evoteck_classroom_profiles").document(uid).set(userData).await()
+                firestore.collection("evoteck_classroom").document("users")
+                    .collection("students").document(uid).set(userData).await()
+
+            }
             AuthResult.Success(result.user?.toDomainUser())
         } catch (e: Exception) {
             AuthResult.Error(e.toAuthError())

@@ -41,10 +41,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun signup(email: String, password: String) {
+    fun signup(email: String, password: String, fullname: String) {
         viewModelScope.launch {
             _authResult.value = AuthResult.Loading
-            val result = authManager.signup(email, password)
+            val result = authManager.signup(email, password, fullname)
             _authResult.value = result
             _isUserLoggedIn.value = result is AuthResult.Success
         }

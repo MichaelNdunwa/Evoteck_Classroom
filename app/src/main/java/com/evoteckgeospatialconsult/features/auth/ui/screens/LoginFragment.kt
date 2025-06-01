@@ -38,7 +38,6 @@ import kotlinx.coroutines.launch
 class LoginFragment : Fragment() {
     private val LOG_TAG = "Login Fragment"
 
-
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
@@ -79,6 +78,11 @@ class LoginFragment : Fragment() {
                 val password = etPassword.text.toString().trim()
                 if (email.isEmpty()) {
                     etEmail.error = "Email is required"
+                    etEmail.requestFocus()
+                    return@setOnClickListener
+                }
+                if (!isValidEmail(email)) {
+                    etEmail.error = "Invalid email"
                     etEmail.requestFocus()
                     return@setOnClickListener
                 }
@@ -148,7 +152,7 @@ class LoginFragment : Fragment() {
                 handleCredentialResult(result.credential)
             } catch (e: GetCredentialException) {
                 Log.e(LOG_TAG, "Google sign in failed: ${e.localizedMessage}")
-//                Toast.makeText(requireContext(), "Google sign in failed: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Google sign in failed: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
                 Log.e(LOG_TAG, "Unexpected error: ${e.localizedMessage}")
                 Toast.makeText(requireContext(), "Unexpected error: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
@@ -168,6 +172,10 @@ class LoginFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Not a Google ID credential", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     private fun setupTouchListeners() {
