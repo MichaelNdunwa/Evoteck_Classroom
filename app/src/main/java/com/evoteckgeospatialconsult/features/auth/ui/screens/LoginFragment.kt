@@ -21,7 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.evoteckgeospatialconsult.R
 import com.evoteckgeospatialconsult.core.auth.AuthResult
-import com.evoteckgeospatialconsult.core.ui.MainViewModel
+import com.evoteckgeospatialconsult.features.auth.ui.viewmodels.AuthViewModel
 import com.evoteckgeospatialconsult.databinding.FragmentLoginBinding
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -40,7 +40,7 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: AuthViewModel by activityViewModels()
     private lateinit var credential: CredentialManager
     private lateinit var callbackManager: CallbackManager
 
