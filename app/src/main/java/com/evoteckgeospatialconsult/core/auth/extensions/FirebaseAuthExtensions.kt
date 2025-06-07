@@ -1,6 +1,6 @@
 package com.evoteckgeospatialconsult.core.auth.extensions
 
-import com.evoteckgeospatialconsult.core.auth.models.AuthUser
+import com.evoteckgeospatialconsult.core.auth.model.AuthUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 

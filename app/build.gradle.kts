@@ -15,8 +15,8 @@ android {
         applicationId = "com.evoteckgeospatialconsult"
         minSdk = 24
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.3"
+        versionCode = 5
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -77,28 +77,28 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     // Hilt (Dependency Injection)
-    implementation("com.google.dagger:hilt-android:2.56.1")
-    ksp("com.google.dagger:hilt-android-compiler:2.56.1")
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.14.0"))
     implementation("com.google.firebase:firebase-auth")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
 
     // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.0")
 
     // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.8.9")
-    implementation("androidx.navigation:navigation-ui-ktx:2.8.9")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.9.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.9.0")
 
     // Retrofit & Gson
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
 
     // Room
     implementation("androidx.room:room-runtime:2.7.1")
@@ -107,20 +107,30 @@ dependencies {
 
 
     // Coil for image loading
-    implementation("io.coil-kt:coil:2.4.0")
+    implementation("io.coil-kt:coil:2.7.0")
 
     // ExoPlayer
-    implementation("androidx.media3:media3-exoplayer:1.6.1")
-    implementation("androidx.media3:media3-exoplayer-dash:1.6.1")
-    implementation("androidx.media3:media3-ui:1.6.1")
-    implementation("androidx.media3:media3-ui-compose:1.6.1")
+    implementation("androidx.media3:media3-exoplayer:1.7.1")
+    implementation("androidx.media3:media3-exoplayer-dash:1.7.1")
+    implementation("androidx.media3:media3-ui:1.7.1")
+    implementation("androidx.media3:media3-ui-compose:1.7.1")
 
     // Lottie
-    implementation("com.airbnb.android:lottie:3.4.0")
+    implementation("com.airbnb.android:lottie:6.6.6")
 
     // Viewpager
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
 
     // DotsIndicator
     implementation("com.tbuonomo:dotsindicator:5.1.0")
+
+    // Facebook Android SDK
+    implementation("com.facebook.android:facebook-android-sdk:18.0.3")
+
+    // Google Identity Services SDK
+    implementation("androidx.credentials:credentials:1.5.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.5.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
 }

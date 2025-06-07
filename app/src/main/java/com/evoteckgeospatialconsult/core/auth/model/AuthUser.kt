@@ -1,4 +1,4 @@
-package com.evoteckgeospatialconsult.core.auth.models
+package com.evoteckgeospatialconsult.core.auth.model
 
 data class AuthUser(
     val uid: String,

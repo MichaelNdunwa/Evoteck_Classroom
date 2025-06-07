@@ -9,11 +9,9 @@
         <item name="fontFamily">@font/inter</item>
         <item name="android:fontFamily">@font/inter</item>
 
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
 
-<!--        <item name="colorControlActivated">@color/blue</item>-->
-<!--        <item name="android:colorControlActivated">@color/blue</item>-->
-<!--        <item name="colorControlHighlight">@color/blue</item>-->
-<!--        <item name="android:colorControlHighlight">@color/blue</item>-->
     </style>
 
 </resources>

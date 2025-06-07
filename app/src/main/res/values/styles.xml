@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AlertDialog Style -->
+    <style name="CustomAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/CustomDialogButton</item>
+    </style>
+    <style name="CustomDialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+</resources>

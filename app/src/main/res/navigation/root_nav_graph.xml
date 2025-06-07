@@ -69,6 +69,9 @@
             app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true"
             app:destination="@id/courseListFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_termsWebViewFragment"
+            app:destination="@id/termsWebViewFragment" />
     </fragment>
 
     <!--    app_nav_graph-->
@@ -95,14 +98,33 @@
         android:name="com.evoteckgeospatialconsult.features.classroom.ui.screens.ClassroomFragment"
         android:label="fragment_classroom"
         tools:layout="@layout/fragment_classroom" >
+
         <action
-            android:id="@+id/action_classroomFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            android:id="@+id/action_classroomFragment_to_shortlistFragment"
+            app:destination="@id/shortlistFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.evoteckgeospatialconsult.features.profile.ui.screens.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/termsWebViewFragment"
+        android:name="com.evoteckgeospatialconsult.features.deeplink.ui.screen.TermsWebViewFragment"
+        android:label="fragment_terms_web_view"
+        tools:layout="@layout/fragment_terms_web_view" >
+        <action
+            android:id="@+id/action_termsWebViewFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shortlistFragment"
+        android:name="com.evoteckgeospatialconsult.features.shortlist.ui.screens.ShortlistFragment"
+        android:label="fragment_shortlist"
+        tools:layout="@layout/fragment_shortlist" >
+        <action
+            android:id="@+id/action_shortlistFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 
 </navigation>

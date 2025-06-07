@@ -2,6 +2,7 @@ package com.evoteckgeospatialconsult.features.splash.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,8 +33,7 @@ class SplashViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun checkLoginStatus() {
-        // Replace with auth logic (e.g., FirebaseAuth or SharedPreferences)
-        val loggedIn = false // e.g. FirebaseAuth.getInstance().currentUser != null
-        _isUserLoggedIn.value = loggedIn
+        val user = FirebaseAuth.getInstance().currentUser
+        _isUserLoggedIn.value = user != null
     }
 }

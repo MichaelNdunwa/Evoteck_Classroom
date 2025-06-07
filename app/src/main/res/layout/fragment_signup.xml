@@ -12,12 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:focusableInTouchMode="true"
-        android:padding="24dp">
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:padding="24dp"
+            android:layout_height="wrap_content">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_animationView"
@@ -29,8 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/lottie_signup"
-                app:lottie_scale="2" />
+                app:lottie_rawRes="@raw/lottie_signup" />
 
             <TextView
                 android:id="@+id/tv_title"
@@ -46,13 +46,13 @@
                 app:layout_constraintTop_toBottomOf="@id/lottie_animationView" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_username"
+                android:id="@+id/text_input_fullname"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/black"
-                android:hint="Username"
+                android:hint="Full name"
                 android:textColorHint="@color/gray"
                 app:boxBackgroundColor="@color/white"
                 app:boxCornerRadiusBottomEnd="8dp"
@@ -69,7 +69,7 @@
                 app:startIconTint="@color/gray">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_username"
+                    android:id="@+id/et_fullname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -96,7 +96,7 @@
                 app:hintTextColor="@color/blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_input_username"
+                app:layout_constraintTop_toBottomOf="@id/text_input_fullname"
                 app:startIconDrawable="@drawable/ic_email"
                 app:startIconTint="@color/gray">
 
@@ -180,11 +180,23 @@
                 style="@style/Widget.Material3.CompoundButton.CheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/gray"
-                android:text="I 'Agree' to all the terms and conditions"
-                android:textColor="@color/white"
+                android:buttonTint="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_input_confirm_password" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_terms"
+                android:text="@string/terms"
+                android:textColor="@color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:autoLink="none"
+                app:layout_constraintBottom_toBottomOf="@id/chk_remember"
+                app:layout_constraintTop_toTopOf="@id/chk_remember"
+                app:layout_constraintStart_toEndOf="@id/chk_remember"/>
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_signup"
@@ -287,5 +299,9 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <include
+        android:id="@+id/progress_overlay"
+        layout="@layout/view_progress_overlay" />
 
 </FrameLayout>
