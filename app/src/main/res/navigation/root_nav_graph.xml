@@ -98,9 +98,10 @@
         android:name="com.evoteckgeospatialconsult.features.classroom.ui.screens.ClassroomFragment"
         android:label="fragment_classroom"
         tools:layout="@layout/fragment_classroom" >
+
         <action
-            android:id="@+id/action_classroomFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            android:id="@+id/action_classroomFragment_to_shortlistFragment"
+            app:destination="@id/shortlistFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -115,6 +116,15 @@
         <action
             android:id="@+id/action_termsWebViewFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shortlistFragment"
+        android:name="com.evoteckgeospatialconsult.features.shortlist.ui.screens.ShortlistFragment"
+        android:label="fragment_shortlist"
+        tools:layout="@layout/fragment_shortlist" >
+        <action
+            android:id="@+id/action_shortlistFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
 </navigation>

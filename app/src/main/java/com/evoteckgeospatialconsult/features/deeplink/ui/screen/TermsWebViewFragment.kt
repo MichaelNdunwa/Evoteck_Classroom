@@ -12,10 +12,8 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.navigation.fragment.findNavController
 import com.evoteckgeospatialconsult.R
 import com.evoteckgeospatialconsult.databinding.FragmentTermsWebViewBinding
-import kotlinx.coroutines.delay
 
 
 class TermsWebViewFragment : Fragment() {
@@ -34,14 +32,11 @@ class TermsWebViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val toolbar = binding.toolbar
-        val webview = binding.webview
+        val webView = binding.webView
         val swipeRefreshLayout = binding.swipeRefreshLayout
         val progressOverlay = binding.progressOverlay.progressOverlay
 
-//        toolbar.setNavigationIcon(R.drawable.ic_back_arrow_30)
-        toolbar.setNavigationIconTint(resources.getColor(R.color.black))
         toolbar.setNavigationOnClickListener {
-//            findNavController().navigate(R.id.action_termsWebViewFragment_to_signupFragment)
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
@@ -49,7 +44,7 @@ class TermsWebViewFragment : Fragment() {
         swipeRefreshLayout.setColorSchemeResources(R.color.blue)
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.swipe_refresh_background)
 
-        webview.webViewClient = object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 progressOverlay.visibility = View.VISIBLE
@@ -80,11 +75,11 @@ class TermsWebViewFragment : Fragment() {
                 handler?.proceed()
             }
         }
-        webview.settings.javaScriptEnabled = true
-        webview.loadUrl(getString(R.string.terms_url))
+        webView.settings.javaScriptEnabled = true
+        webView.loadUrl(getString(R.string.terms_url))
 
         swipeRefreshLayout.setOnRefreshListener {
-            webview.reload()
+            webView.reload()
             progressOverlay.visibility = View.VISIBLE
             swipeRefreshLayout.postDelayed({
                 swipeRefreshLayout.isRefreshing = false
@@ -97,12 +92,12 @@ class TermsWebViewFragment : Fragment() {
             <html>
                 <head><title>Oops!</title></head>
                 <body style="text-align: center;">
-                    <h1>Sorry, something went wrfong.</h1>
+                    <h1>Sorry, something went wrong.</h1>
                     <p>Please check your internet connection or try again.</p>
                 </body>
             </html>
         """.trimIndent()
-        binding.webview.loadData(errorPage, "text/html", "UTF-8")
+        binding.webView.loadData(errorPage, "text/html", "UTF-8")
     }
 
     override fun onDestroyView() {

@@ -10,13 +10,14 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/toolbar_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/navigation_icon_color"
         app:title="Terms and Conditions"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/title_text_color" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -28,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <WebView
-            android:id="@+id/webview"
+            android:id="@+id/web_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
